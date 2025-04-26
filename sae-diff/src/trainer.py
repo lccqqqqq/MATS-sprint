@@ -1,7 +1,6 @@
 import os 
 import sys
 # print(os.getcwd())
-os.environ["HF_TOKEN"] = "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"
 os.chdir("sae-diff/src")
 import torch as t
 from torch.utils.data import DataLoader
