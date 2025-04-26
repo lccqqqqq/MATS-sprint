@@ -1,0 +1,56 @@
+device: cuda
+generator:
+  activation_batch_size: 48
+  acts_per_run: 100000
+  dataset:
+    name: ServiceNow-AI/R1-Distill-SFT
+    split: train
+    streaming: false
+  device: cuda
+  generator_batch_size: 16
+  layer_num: 8
+  skip_first_n_tokens: 1
+  tokens_per_example: 1024
+model_base:
+  name: llama-3.1-8b
+  path: meta-llama/Meta-Llama-3.1-8B
+model_ft:
+  name: llama-3.1-8b-r1-distilled
+  path: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+optimizer:
+  beta1: 0.0
+  beta2: 0.999
+  lr: 2.0e-05
+  name: adamw
+  weight_decay: 0.01
+resample:
+  freq: 120
+  scale: 0.5
+  window: 80
+sae:
+  aux_coeff: 0.03125
+  d_model: 4096
+  d_sae: 65536
+  sparsity_coeff: 0.0625
+  standardize_method: per_token
+  weight_normalize_eps: 1.0e-06
+save_checkpoint_freq: 50
+save_dir: output/sweep_toy_3
+scheduler:
+  name: constant
+  warmup_steps: 100
+seed: 42
+trainer:
+  accumulation_steps: 4
+  actual_batch_size: 48
+  num_optimizer_steps: 256
+  num_tokens_to_train: 65536
+  skip_first_n_tokens: 1
+  sparsity_loss_alpha: 0.0625
+  tokens_per_example: 1024
+  total_forward_passes: 2048
+  virtual_batch_size: 256
+wandb:
+  name: gated-sae-on-diff-toy-per-token
+  project: sae-diff
+  use_wandb: true
